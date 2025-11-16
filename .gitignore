@@ -1,0 +1,13 @@
+# Fichiers sensibles
+config/.env.php
+
+# Dossiers contenant des fichiers uploadés
+public/uploads/
+
+# Fichiers système
+.DS_Store
+Thumbs.db
+
+# Répertoires IDE
+.vscode/
+.idea/

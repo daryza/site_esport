@@ -1,0 +1,51 @@
+-- DATABASE ESPORT
+
+CREATE DATABASE IF NOT EXISTS esport
+  DEFAULT CHARACTER SET utf8mb4
+  DEFAULT COLLATE utf8mb4_general_ci;
+
+USE esport;
+
+-- TABLE ROLE
+CREATE TABLE role (
+  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  libelle VARCHAR(50) NOT NULL
+);
+
+INSERT INTO role (libelle) VALUES ('admin'), ('utilisateur');
+
+-- TABLE USER
+CREATE TABLE user (
+  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  pseudo VARCHAR(50) NOT NULL UNIQUE,
+  mdp_hash VARCHAR(255) NOT NULL,
+  role_id INT UNSIGNED NOT NULL,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+
+  FOREIGN KEY (role_id) REFERENCES role(id)
+    ON UPDATE CASCADE
+    ON DELETE RESTRICT
+);
+
+-- TABLE PLAYER
+CREATE TABLE player (
+  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+
+  nom VARCHAR(100) NOT NULL UNIQUE,
+  age TINYINT UNSIGNED NOT NULL,
+  taille TINYINT UNSIGNED NOT NULL,   
+  poids TINYINT UNSIGNED NOT NULL,         
+
+  nationalite VARCHAR(50) NOT NULL,
+  poste VARCHAR(50) NOT NULL,
+
+  bio TEXT,                            -- facultatif
+  photo_path VARCHAR(255),             -- facultatif
+
+  user_id INT UNSIGNED NOT NULL,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+
+  FOREIGN KEY (user_id) REFERENCES user(id)
+    ON UPDATE CASCADE
+    ON DELETE CASCADE    -- suppression compte -> supprime joueurs liés au compte
+);
