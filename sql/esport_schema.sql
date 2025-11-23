@@ -39,8 +39,8 @@ CREATE TABLE player (
   nationalite VARCHAR(50) NOT NULL,
   poste VARCHAR(50) NOT NULL,
 
-  bio TEXT,                            -- facultatif
-  photo_path VARCHAR(255),             -- facultatif
+  bio TEXT,                            
+  photo_path VARCHAR(255),             
 
   user_id INT UNSIGNED NOT NULL,
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
