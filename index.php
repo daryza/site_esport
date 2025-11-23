@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once __DIR__ . '/config/database.php';
+require __DIR__ . '/helpers/auth.php';
 $page = $_GET['page'] ?? 'home';
 # $_SESSION['user_id'] = 1;   # test
 
