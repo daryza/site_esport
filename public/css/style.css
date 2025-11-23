@@ -1,0 +1,64 @@
+.home-title {
+    margin-bottom: 40px;
+    /* augmente l'espace */
+}
+
+/* --- Photos joueurs --- */
+.player-photo-sm {
+    width: 55px;
+    height: 55px;
+    object-fit: contain;
+    /* plus de coupure */
+    border-radius: 5px;
+}
+
+.player-photo-md {
+    width: 80px;
+    height: auto;
+}
+
+.player-photo-show {
+    max-height: 300px;
+    width: auto;
+    object-fit: contain;
+    border-radius: 5px;
+}
+
+.player-show-container {
+    text-align: center;
+}
+
+/* --- Drapeaux --- */
+.flag-sm {
+    width: 35px;
+    height: auto;
+}
+
+/* --- Largeurs de colonnes --- */
+.w-70 {
+    width: 70px;
+}
+
+.w-120 {
+    width: 120px;
+}
+
+.w-150 {
+    width: 150px;
+}
+
+.w-200 {
+    width: 200px;
+}
+
+.w-260 {
+    width: 260px;
+}
+
+.text-small {
+    font-size: 0.9em;
+}
+
+.text-large {
+    font-size: 1.2em;
+}
