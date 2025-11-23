@@ -115,10 +115,7 @@ class AuthController
     public function account()
     {
         # Doit être connecté
-        if (empty($_SESSION['user_id'])) {
-            header('Location: index.php?page=login');
-            exit;
-        }
+        requireLogin();
 
         $userId = $_SESSION['user_id'];
         $roleId = $_SESSION['role_id'];
@@ -151,12 +148,10 @@ class AuthController
 
     public function updatePseudo()
     {
+        requireLogin();
+
         global $pdo;
 
-        if (empty($_SESSION['user_id'])) {
-            header("Location: index.php?page=login");
-            exit;
-        }
 
         $newPseudo = trim($_POST['pseudo'] ?? '');
 
@@ -196,12 +191,10 @@ class AuthController
 
     public function updatePassword()
     {
+        requireLogin();
+
         global $pdo;
 
-        if (empty($_SESSION['user_id'])) {
-            header("Location: index.php?page=login");
-            exit;
-        }
 
         $current = $_POST['current_password'] ?? '';
         $new = $_POST['new_password'] ?? '';
@@ -254,10 +247,7 @@ class AuthController
 
     public function deleteAccount()
     {
-        if (empty($_SESSION['user_id'])) {
-            header('Location: index.php?page=login');
-            exit;
-        }
+        requireLogin();
 
         global $pdo;
 

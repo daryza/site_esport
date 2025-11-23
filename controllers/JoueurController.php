@@ -4,6 +4,7 @@ class JoueurController
 {
     public function create()
     {
+        requireLogin();
         # old = valeurs précédemment saisies en cas d'erreur
         $old = $_SESSION['old'] ?? [];
         $error = $_SESSION['error'] ?? null;
@@ -83,7 +84,7 @@ class JoueurController
             $file = $_FILES['photo'];
             $ext = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
 
-            # Format autorisé ?
+            # Format autorisé 
             if (!in_array($ext, ['png', 'jpg', 'jpeg'])) {
                 return $this->error("La photo doit être en PNG ou JPG.");
             }
@@ -126,7 +127,7 @@ class JoueurController
             'user' => $_SESSION['user_id']
         ]);
 
-        # On récupère l'ID du joueur créé
+        # Récupère l'ID du joueur créé
         $id = $pdo->lastInsertId();
 
         # Nettoyage des old values
@@ -169,7 +170,6 @@ class JoueurController
             die("Joueur introuvable.");
         }
 
-        # Qui est connecté ?
         $loggedId = $_SESSION['user_id'] ?? null;
         $loggedRole = $_SESSION['role_id'] ?? null;
 
@@ -185,13 +185,10 @@ class JoueurController
 
     public function mesJoueurs()
     {
-        global $pdo;
-
         # L’utilisateur doit être connecté
-        if (empty($_SESSION['user_id'])) {
-            header("Location: index.php?page=login");
-            exit;
-        }
+        requireLogin();
+
+        global $pdo;
 
         $userId = $_SESSION['user_id'];
 
@@ -238,13 +235,9 @@ class JoueurController
 
     public function edit()
     {
-        global $pdo;
+        requireLogin();
 
-        # Vérifier connexion
-        if (empty($_SESSION['user_id'])) {
-            header("Location: index.php?page=login");
-            exit;
-        }
+        global $pdo;
 
         # Vérifier ID
         if (empty($_GET['id'])) {
@@ -284,13 +277,10 @@ class JoueurController
 
     public function update()
     {
-        global $pdo;
-
         # Vérifier connexion
-        if (empty($_SESSION['user_id'])) {
-            header("Location: index.php?page=login");
-            exit;
-        }
+        requireLogin();
+
+        global $pdo;
 
         if (empty($_GET['id'])) {
             die("ID du joueur manquant.");
@@ -418,13 +408,10 @@ class JoueurController
 
     public function delete()
     {
-        global $pdo;
-
         # Vérifier connexion
-        if (empty($_SESSION['user_id'])) {
-            header("Location: index.php?page=login");
-            exit;
-        }
+        requireLogin();
+
+        global $pdo;
 
         # L’ID doit exister dans l’URL
         if (empty($_GET['id'])) {

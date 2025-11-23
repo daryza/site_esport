@@ -5,10 +5,8 @@ class AdminController
     public function index()
     {
         # Vérification ADMIN obligatoire
-        if (empty($_SESSION['user_id']) || $_SESSION['role_id'] != 1) {
-            header("Location: index.php?page=home");
-            exit;
-        }
+        # Un utilisateur non admin ou non connecté est redirigé
+        requireAdmin();
 
         global $pdo;
 
@@ -25,13 +23,16 @@ class AdminController
             ORDER BY user.role_id ASC, user.pseudo ASC
         ";
 
-        $statement = $pdo->query($query);
-        $users = $statement->fetchAll();
+        $statement = $pdo->query($query);    # Exécution de la requête
+        $users = $statement->fetchAll();            # Tableau associatif contenant tous les users
 
+
+        # Chargement de la vue Admin
         ob_start();
         require __DIR__ . '/../views/admin/index.php';
         $content = ob_get_clean();
 
+        # Inclusion du layout dans la vue
         require __DIR__ . '/../views/layout.php';
     }
 
@@ -39,10 +40,7 @@ class AdminController
     public function deleteUser()
     {
         # Vérif admin
-        if (empty($_SESSION['user_id']) || $_SESSION['role_id'] != 1) {
-            header("Location: index.php?page=home");
-            exit;
-        }
+        requireAdmin();
 
         if (empty($_GET['id'])) {
             die("ID utilisateur manquant.");
@@ -65,7 +63,7 @@ class AdminController
             die("Impossible de supprimer le compte administrateur.");
         }
 
-        # Suppression (cascade supprime ses joueurs)
+        # Suppression user ( et ses joueurs)
         $stmt = $pdo->prepare("DELETE FROM user WHERE id = :id");
         $stmt->execute(['id' => $id]);
 
